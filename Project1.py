@@ -33,7 +33,7 @@ def merge(line):
         key = line[num1]
 
 
-        
+
         for num2 in range(num1 + 1, length_initial):
             comparing_key = line[num2]
             if (key != comparing_key and comparing_key != 0 and key != 0):
