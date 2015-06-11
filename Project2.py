@@ -17,28 +17,65 @@ OFFSETS = {UP: (1, 0),
            LEFT: (0, 1),
            RIGHT: (0, -1)}
 
+
 def merge(line):
     """
     Helper function that merges a single row or column in 2048
     """
     # replace with your code from the previous mini-project
-    return []
+    merged_list = slide_over(line)
 
-class TwentyFortyEight:
+    length_initial = len(line)
+
+    for index in range(length_initial - 1):
+        if merged_list[index] == merged_list[index + 1]:
+            merged_list[index] *= 2
+            merged_list[index + 1] = 0
+
+    merged_list = slide_over(merged_list)
+
+    return merged_list
+
+
+
+def slide_over(line):
+    """
+    Function that slides numbers over to the left, a helper function for merge
+    """
+    fixed_line = []
+    num_zeros = 0
+
+    for num in line:
+        if num != 0:
+            fixed_line.append(num)
+        else:
+            num_zeros += 1
+
+    for zero in range(num_zeros):
+        fixed_line.append(0)
+
+    return fixed_line
+
+
+class TwentyFortyEight(object):
     """
     Class to run the game logic.
     """
 
     def __init__(self, grid_height, grid_width):
         # replace with your code
-        pass
+        self.height = grid_height
+        self.width = grid_width
+        self.grid = []
+        self.reset()
 
     def reset(self):
         """
         Reset the game so the grid is empty except for two
         initial tiles.
         """
-        # replace with your code
+        self.grid = [[0 for dummy_col in range(self.width)] for dummy_row in range(self.height)]
+
         pass
 
     def __str__(self):
@@ -46,7 +83,16 @@ class TwentyFortyEight:
         Return a string representation of the grid for debugging.
         """
         # replace with your code
-        return ""
+        temp_row = []
+        str_grid = ""
+        for row in self.grid:
+            for col in row:
+                temp_row.append(col)
+            row_str = str(temp_row) + "\n"
+            str_grid += row_str
+            temp_row = []
+
+        return str_grid
 
     def get_grid_height(self):
         """
@@ -92,6 +138,9 @@ class TwentyFortyEight:
         """
         # replace with your code
         return 0
+
+x = TwentyFortyEight(4, 4)
+print(str(x))
 
 
 # poc_2048_gui.run_gui(TwentyFortyEight(4, 4))
