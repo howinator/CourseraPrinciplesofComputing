@@ -63,7 +63,7 @@ class TwentyFortyEight(object):
     """
 
     def __init__(self, grid_height, grid_width):
-        # replace with your code
+
         self.height = grid_height
         self.width = grid_width
         self.grid = []
@@ -95,7 +95,7 @@ class TwentyFortyEight(object):
         """
         Return a string representation of the grid for debugging.
         """
-        # replace with your code
+
         temp_row = []
         str_grid = ""
         for row in self.grid:
@@ -112,7 +112,22 @@ class TwentyFortyEight(object):
         Move all tiles in the given direction and add
         a new tile if any tiles moved.
         """
-        # replace with your code
+        is_grid_changed = False
+
+        if direction == UP or direction == DOWN:
+            for init_coord_pair in self.initial_tiles[direction]:
+                temp_list_coords = []
+                for row in range(self.height):
+                    temp_list_coords.append((init_coord_pair[0] + OFFSETS[direction][0] * row, init_coord_pair[1]))
+                
+
+        elif direction == LEFT or direction == RIGHT:
+            for init_coord_pair in self.initial_tiles[direction]:
+                temp_list_coords = []
+                for col in range(self.width):
+                    temp_list_coords.append((init_coord_pair[0], init_coord_pair[1] + OFFSETS[direction][1] * col))
+
+
         pass
 
     def new_tile(self):
@@ -121,7 +136,6 @@ class TwentyFortyEight(object):
         square.  The tile should be 2 90% of the time and
         4 10% of the time.
         """
-        # replace with your code
         
         # Keep choosing cell until you get an empty, zero cell
         # if the cell is empty change the flag and exit the loop
@@ -145,7 +159,6 @@ class TwentyFortyEight(object):
         """
         Set the tile at position row, col to have the given value.
         """
-        # replace with your code
         self.grid[row][col] = value
         pass
 
@@ -153,21 +166,18 @@ class TwentyFortyEight(object):
         """
         Return the value of the tile at position row, col.
         """
-        # replace with your code
         return self.grid[row][col]
 
     def get_grid_height(self):
         """
         Get the height of the board.
         """
-        # replace with your code
         return self.height
 
     def get_grid_width(self):
         """
         Get the width of the board.
         """
-        # replace with your code
         return self.width
 
     def print_direction_dict(self):
@@ -179,6 +189,7 @@ class TwentyFortyEight(object):
 
 x = TwentyFortyEight(4, 4)
 print(str(x))
+x.move(UP)
 
 y = TwentyFortyEight(5, 4)
 print(str(y))
