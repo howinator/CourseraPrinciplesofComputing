@@ -1,6 +1,7 @@
 """
 Clone of 2048 game.
 """
+import random
 
 # import poc_2048_gui
 
@@ -37,7 +38,6 @@ def merge(line):
     return merged_list
 
 
-
 def slide_over(line):
     """
     Function that slides numbers over to the left, a helper function for merge
@@ -69,12 +69,25 @@ class TwentyFortyEight(object):
         self.grid = []
         self.reset()
 
+        # populate initial tiles dictionary
+        self.initial_tiles = {}
+        up_list = [(0, col) for col in range(0, self.width)]
+        down_list = [(self.height - 1, col) for col in range(0, self.width)]
+        left_list = [(row, 0) for row in range(0, self.height)]
+        right_list = [(row, self.width - 1) for row in range(0, self.height)]
+        self.initial_tiles[UP] = up_list
+        self.initial_tiles[DOWN] = down_list
+        self.initial_tiles[LEFT] = left_list
+        self.initial_tiles[RIGHT] = right_list
+
     def reset(self):
         """
         Reset the game so the grid is empty except for two
         initial tiles.
         """
         self.grid = [[0 for dummy_col in range(self.width)] for dummy_row in range(self.height)]
+        self.new_tile()
+        self.new_tile()
 
         pass
 
@@ -94,20 +107,6 @@ class TwentyFortyEight(object):
 
         return str_grid
 
-    def get_grid_height(self):
-        """
-        Get the height of the board.
-        """
-        # replace with your code
-        return 0
-
-    def get_grid_width(self):
-        """
-        Get the width of the board.
-        """
-        # replace with your code
-        return 0
-
     def move(self, direction):
         """
         Move all tiles in the given direction and add
@@ -123,6 +122,23 @@ class TwentyFortyEight(object):
         4 10% of the time.
         """
         # replace with your code
+        
+        # Keep choosing cell until you get an empty, zero cell
+        # if the cell is empty change the flag and exit the loop
+        is_cell_occupied = True
+        while is_cell_occupied:
+            rand_row = random.randint(0, self.height - 1)
+            rand_col = random.randint(0, self.width - 1)
+            if self.grid[rand_row][rand_col] == 0:
+                is_cell_occupied = False
+
+        rand_two_or_four = random.random()
+        two_upper_limit = .9
+        if rand_two_or_four < two_upper_limit:
+            self.grid[rand_row][rand_col] = 2
+        elif rand_two_or_four >= two_upper_limit:
+            self.grid[rand_row][rand_col] = 4
+
         pass
 
     def set_tile(self, row, col, value):
@@ -130,6 +146,7 @@ class TwentyFortyEight(object):
         Set the tile at position row, col to have the given value.
         """
         # replace with your code
+        self.grid[row][col] = value
         pass
 
     def get_tile(self, row, col):
@@ -137,10 +154,37 @@ class TwentyFortyEight(object):
         Return the value of the tile at position row, col.
         """
         # replace with your code
-        return 0
+        return self.grid[row][col]
+
+    def get_grid_height(self):
+        """
+        Get the height of the board.
+        """
+        # replace with your code
+        return self.height
+
+    def get_grid_width(self):
+        """
+        Get the width of the board.
+        """
+        # replace with your code
+        return self.width
+
+    def print_direction_dict(self):
+        """
+        Tests if the initial tiles dict was set up properly
+        """
+        print(self.initial_tiles)
+        pass
 
 x = TwentyFortyEight(4, 4)
 print(str(x))
+
+y = TwentyFortyEight(5, 4)
+print(str(y))
+
+z = TwentyFortyEight(8, 2)
+print(str(z))
 
 
 # poc_2048_gui.run_gui(TwentyFortyEight(4, 4))
