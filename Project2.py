@@ -2,8 +2,7 @@
 Clone of 2048 game.
 """
 import random
-
-# import poc_2048_gui
+import poc_2048_gui
 
 # Directions, DO NOT MODIFY
 UP = 1
@@ -114,12 +113,24 @@ class TwentyFortyEight(object):
         """
         is_grid_changed = False
 
+        # Since the grid can be rectangular you must distinguish between moving up and down vs. left and right
         if direction == UP or direction == DOWN:
             for init_coord_pair in self.initial_tiles[direction]:
                 temp_list_coords = []
+                # build list of coordinates based on initial coordinates and offset
                 for row in range(self.height):
                     temp_list_coords.append((init_coord_pair[0] + OFFSETS[direction][0] * row, init_coord_pair[1]))
-                
+
+                values = self.form_line_from_coords(temp_list_coords)
+                merged_values = merge(values)
+
+                # test if merged values are different than original values
+                if merged_values != values:
+                    is_grid_changed = True
+
+                # update values in grid
+                for row in range(self.height):
+                    self.grid[row][init_coord_pair[1]] = merged_values[row]
 
         elif direction == LEFT or direction == RIGHT:
             for init_coord_pair in self.initial_tiles[direction]:
@@ -127,8 +138,44 @@ class TwentyFortyEight(object):
                 for col in range(self.width):
                     temp_list_coords.append((init_coord_pair[0], init_coord_pair[1] + OFFSETS[direction][1] * col))
 
+                values = self.form_line_from_coords(temp_list_coords)
+                merged_values = merge(values)
+
+                # test if merged_values are different than original values
+                if merged_values != values:
+                    is_grid_changed = True
+
+                # update values in grid
+                for col in range(self.width):
+                    self.grid[init_coord_pair[0]][col] = merged_values[col]
+
+        if is_grid_changed:
+            self.new_tile()
 
         pass
+
+    def traverse_grid(self, start_cell, direction, num_steps):
+        """
+        This function traverses the grid and returns values from the grid for
+        the row or colum values
+        """
+        values = []
+        for step in range(num_steps):
+            row = start_cell[0] + step * direction[0]
+            col = start_cell[1] + start_cell * direction[1]
+            values.append()
+
+
+
+    def form_line_from_coords(self, list_coords):
+        """
+        This function takes in a list of coordinates (as tuples) and returns the values at those coordinates
+        """
+        values = []
+        for coord in list_coords:
+            values.append(self.grid[coord[0]][coord[1]])
+
+        return values
 
     def new_tile(self):
         """
@@ -189,14 +236,14 @@ class TwentyFortyEight(object):
 
 x = TwentyFortyEight(4, 4)
 print(str(x))
-x.move(UP)
+x.move(LEFT)
 
-y = TwentyFortyEight(5, 4)
-print(str(y))
+#y = TwentyFortyEight(5, 4)
+#print(str(y))
 
-z = TwentyFortyEight(8, 2)
-print(str(z))
+#z = TwentyFortyEight(8, 2)
+#print(str(z))
 
 
-# poc_2048_gui.run_gui(TwentyFortyEight(4, 4))
+poc_2048_gui.run_gui(TwentyFortyEight(4, 4))
 
